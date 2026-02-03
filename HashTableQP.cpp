@@ -5,6 +5,7 @@ HashTableQP::HashTableQP(int tableSize) {
   size = tableSize;
   table.resize(size);
   occupied.resize(size, false);
+  collisions = 0;
 }
 
 //funcion hash
@@ -25,11 +26,18 @@ void HashTableQP::insert(const IPSummary& summary) {
   int index = hashFunction(summary.ip);
   int i = 0;
 
+  // cada intento adicional cuenta como una colision
   while (occupied[(index + i * i) % size]) {
+    collisions++;
     i++;
   }
 
   int finalIndex = (index + i * i) % size;
   table[finalIndex] = summary;
   occupied[finalIndex] = true;
+}
+
+// regresa el total de colisiones generadas
+int HashTableQP::getCollisions() const {
+  return collisions;
 }
