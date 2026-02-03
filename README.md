@@ -1,1 +1,0 @@
-# Act-5.2---Actividad-Integral-sobre-el-uso-de-c-digos-hash
