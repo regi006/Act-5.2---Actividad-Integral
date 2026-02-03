@@ -94,6 +94,8 @@ int main() {
   }
 
   std::cout << "tabla hash creada correctamente a partir del grafo dirigido\n";
+  std::cout << "total de colisiones generadas: " << hashTable.getCollisions() << std::endl;
+
 
 
 
