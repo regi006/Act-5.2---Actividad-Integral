@@ -12,6 +12,7 @@ private:
   std::vector<IPSummary> table;
   std::vector<bool> occupied;
   int size;
+  int collisions;
 
   // funcion hash que convierte una ip en un indice
   int hashFunction(const std::string& ip) const;
@@ -21,6 +22,9 @@ public:
 
   // inserta un resumen de ip en la tabla hash
   void insert(const IPSummary& summary);
+
+  // regresa el numero total de colisiones generadas
+  int getCollisions() const;
 };
 
 #endif
