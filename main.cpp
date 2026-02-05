@@ -124,11 +124,16 @@ int main() {
 
   file.close();
 
-  // se crea la tabla hash para almacenar el resumen de cada ip
-  HashTableQP hashTable(101);
-
   const auto &outDegrees = graph.getOutDegrees();
   const auto &inDegrees = graph.getInDegrees();
+
+  // se calcula el tamaño de la tabla hash basado en el numero de ips unicas
+  // se usa aproximadamente 2x el numero de ips para un buen factor de carga
+  int numIPs = static_cast<int>(outDegrees.size());
+  int tableSize = std::max(101, numIPs * 2);
+
+  // se crea la tabla hash para almacenar el resumen de cada ip
+  HashTableQP hashTable(tableSize);
 
   // se recorre el conjunto de ips para generar su resumen
   // complejidad O(n)

@@ -32,6 +32,10 @@ void HashTableQP::insert(const IPSummary &summary) {
   while (occupied[(index + i * i) % size]) {
     collisions++;
     i++;
+    // proteccion contra tabla llena para evitar loop infinito
+    if (i >= size) {
+      return; // tabla llena, no se puede insertar
+    }
   }
 
   int finalIndex = (index + i * i) % size;
