@@ -93,9 +93,10 @@ int main() {
     return 1;
   }
 
-  // el archivo comienza con un entero n (numero de ips)
-  int n;
-  file >> n;
+  // el archivo comienza con dos enteros: n (numero de ips) y m (numero de
+  // aristas)
+  int n, m;
+  file >> n >> m;
 
   // se leen y descartan las n ips del archivo
   // complejidad O(n)
@@ -146,6 +147,18 @@ int main() {
 
     // se inserta el resumen en la tabla hash
     hashTable.insert(summary);
+  }
+
+  // tambien insertar ips que solo tienen conexiones entrantes (no estan en
+  // outDegrees)
+  for (const auto &pair : inDegrees) {
+    if (!outDegrees.count(pair.first)) {
+      IPSummary summary;
+      summary.ip = pair.first;
+      summary.outDegree = 0;
+      summary.inDegree = pair.second;
+      hashTable.insert(summary);
+    }
   }
 
   std::cout << "Tabla hash creada correctamente a partir del grafo dirigido\n";
