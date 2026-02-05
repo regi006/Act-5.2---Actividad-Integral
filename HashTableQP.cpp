@@ -8,10 +8,11 @@ HashTableQP::HashTableQP(int tableSize) {
   collisions = 0;
 }
 
-//funcion hash
-// complejidad O(n) donde n es el tamaño de la cadena ip
-// implementado de: https://www.geeksforgeeks.org/string-hashing-using-polynomial-rolling-hash-function/
-int HashTableQP::hashFunction(const std::string& ip) const {
+// funcion hash
+//  complejidad O(n) donde n es el tamaño de la cadena ip
+//  implementado de:
+//  https://www.geeksforgeeks.org/string-hashing-using-polynomial-rolling-hash-function/
+int HashTableQP::hashFunction(const std::string &ip) const {
   unsigned long hash = 0;
   for (char c : ip) {
     hash = hash * 31 + c;
@@ -21,8 +22,9 @@ int HashTableQP::hashFunction(const std::string& ip) const {
 
 // inserta usando direccion abierta
 // complejidad O(1) promedio, O(n) en el peor de los casos
-// implementado de: https://www.geeksforgeeks.org/open-addressing-collision-handling-technique-in-hashing/
-void HashTableQP::insert(const IPSummary& summary) {
+// implementado de:
+// https://www.geeksforgeeks.org/open-addressing-collision-handling-technique-in-hashing/
+void HashTableQP::insert(const IPSummary &summary) {
   int index = hashFunction(summary.ip);
   int i = 0;
 
@@ -38,6 +40,43 @@ void HashTableQP::insert(const IPSummary& summary) {
 }
 
 // regresa el total de colisiones generadas
-int HashTableQP::getCollisions() const {
-  return collisions;
+int HashTableQP::getCollisions() const { return collisions; }
+
+// busca una ip en la tabla hash y regresa su resumen
+// complejidad O(1) promedio, O(n) en el peor de los casos
+IPSummary *HashTableQP::search(const std::string &ip) {
+  int index = hashFunction(ip);
+  int i = 0;
+
+  while (occupied[(index + i * i) % size]) {
+    int currentIndex = (index + i * i) % size;
+    if (table[currentIndex].ip == ip) {
+      return &table[currentIndex];
+    }
+    i++;
+    // si recorrimos toda la tabla, no existe
+    if (i >= size) {
+      return nullptr;
+    }
+  }
+  return nullptr;
+}
+
+// verifica si una ip existe en la tabla hash
+// complejidad O(1) promedio, O(n) en el peor de los casos
+bool HashTableQP::contains(const std::string &ip) const {
+  int index = hashFunction(ip);
+  int i = 0;
+
+  while (occupied[(index + i * i) % size]) {
+    int currentIndex = (index + i * i) % size;
+    if (table[currentIndex].ip == ip) {
+      return true;
+    }
+    i++;
+    if (i >= size) {
+      return false;
+    }
+  }
+  return false;
 }

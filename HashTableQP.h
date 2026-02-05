@@ -25,6 +25,13 @@ public:
 
   // regresa el numero total de colisiones generadas
   int getCollisions() const;
+
+  // busca una ip en la tabla hash y regresa su resumen
+  // regresa nullptr si no se encuentra
+  IPSummary* search(const std::string& ip);
+
+  // verifica si una ip existe en la tabla hash
+  bool contains(const std::string& ip) const;
 };
 
 #endif
